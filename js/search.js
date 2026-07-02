@@ -441,12 +441,216 @@ function renderFaq() {
   document.getElementById('dFaq').innerHTML = FAQS.map((f, i) => `<div class="faq-item" data-i="${i}"><button class="faq-q" aria-expanded="false"><span>${f.q}</span><i class="ti ti-chevron-down"></i></button><div class="faq-a">${f.a}</div></div>`).join('');
   document.querySelectorAll('.faq-q').forEach(btn => btn.onclick = () => { const item = btn.closest('.faq-item'); const open = item.classList.toggle('open'); btn.setAttribute('aria-expanded', open); });
 }
-function renderRelated(c) {
-  const pool = COURSES.filter(x => x.id !== c.id);
-  let picks = pool.filter(x => x.cat !== c.cat).sort((a, b) => b.rating - a.rating).slice(0, 3);
-  if (picks.length < 3) { const more = pool.filter(x => !picks.includes(x)).sort((a, b) => b.rating - a.rating); picks = picks.concat(more).slice(0, 3); }
-  const el = document.getElementById('dRelated'); el.innerHTML = picks.map(cardHtml).join(''); wireCards(el);
+const LP_DOMAINS_DATA = {
+  finance: {
+    label: 'Finance',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Annual Reports: COGS Analysis & Operating Cycle',
+      'EBITDA Drivers + Secondary Market Research',
+      'Balance Sheet Analysis',
+      'Project Financial Analysis'
+    ],
+    m1_bonus: 'Bonus: Special session by an Investment Banker from JP Morgan',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · VALUATION',
+    m2_items: [
+      'M&A Synergy Analysis',
+      'Financial Modeling'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  },
+  consulting: {
+    label: 'Consulting',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Market Entry Frameworks & Market Sizing',
+      'Guesstimates & Value Chain Analysis',
+      'MECE Structuring & Issue Trees',
+      'Project Pitch Decks'
+    ],
+    m1_bonus: 'Bonus: Special session by a Consultant from McKinsey & Company',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · CASE STUDIES',
+    m2_items: [
+      'Due Diligence & M&A PMI',
+      'Business Strategy & Operating Models'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  },
+  hr: {
+    label: 'HR',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Competency Mapping & Job Description Design',
+      'Talent Acquisition & Sourcing Strategies',
+      'Performance Appraisal Frameworks',
+      'Employee Engagement Initiatives'
+    ],
+    m1_bonus: 'Bonus: Special session by a CHRO from a top Tech Unicorn',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · ANALYTICS',
+    m2_items: [
+      'HR Analytics & Dashboarding (Excel/Power BI)',
+      'Compensation & Benefits Structuring'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  },
+  product: {
+    label: 'Product Management',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Product Teardowns & User Persona Mapping',
+      'Wireframing & Prototyping (Figma)',
+      'PRD Writing & User Stories',
+      'Product Metric Frameworks (AARRR)'
+    ],
+    m1_bonus: 'Bonus: Special session by a Senior Product Manager from Google',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · PRIORITIZATION',
+    m2_items: [
+      'Roadmap Prioritization (RICE/Kano)',
+      'Product Launch (GTM) Strategy'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  },
+  marketing: {
+    label: 'Marketing',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Brand Positioning & Target Persona Mapping',
+      'Content Strategy & Social Media Planning',
+      'Google Ads & Search Engine Marketing (SEM)',
+      'Competitor Campaign Analysis'
+    ],
+    m1_bonus: 'Bonus: Special session by a Brand Manager from Nestlé',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · GROWTH',
+    m2_items: [
+      'Growth Hacking & Customer Acquisition',
+      'Marketing Mix Modeling & ROI'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  },
+  operations: {
+    label: 'Operations',
+    m1_title: 'MONTH 1 · FOUNDATION',
+    m1_items: [
+      'Process Mapping & Value Stream Analysis',
+      'Inventory Management (EOQ, Just-in-Time)',
+      'Quality Control & Six Sigma Principles',
+      'Demand Forecasting Models'
+    ],
+    m1_bonus: 'Bonus: Special session by an Operations Director from Amazon',
+    m1_footer: 'Presentation & roll-out of certificates at 1-month enrollment',
+    m2_title: 'MONTH 2 · SUPPLY CHAIN',
+    m2_items: [
+      'Supply Chain Network Design',
+      'Logistics & Warehouse Optimization'
+    ],
+    m2_footer: 'Presentation & closure of internship with certificates roll-out'
+  }
+};
+
+let activeLpDomain = 'finance';
+
+function renderLiveProjectDomainCoverage(c) {
+  const container = document.getElementById('liveProjectDomainCoverageBlock');
+  if (!container) return;
+
+  const hasLiveProject = c.cat === 'live' || c.id === 'flagship-bundle' || c.id === 'bootcamp-live' || c.id === 'case-live';
+  if (!hasLiveProject) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  
+  const drawContent = () => {
+    const data = LP_DOMAINS_DATA[activeLpDomain];
+    if (!data) return;
+
+    container.innerHTML = `
+      <h3>What's covered in every Live Project domain</h3>
+      <p style="font-size: 13.5px; color: var(--ink2); margin-top: 6px; margin-bottom: 20px; font-family: 'Inter', sans-serif;">
+        Two months of deliverables, mapped out below — pick a domain to see exactly what you'll build
+      </p>
+      
+      <div class="lp-callout-grid">
+        <div class="lp-callout">
+          <h4>🎓 Need the certificate but couldn't finish every area?</h4>
+          <p>That's fine — we still roll out your Certificate of Completion for your CV, as long as the project is submitted within 3 months of enrollment.</p>
+        </div>
+        <div class="lp-callout">
+          <h4>🗓️ Flexible certificate dates</h4>
+          <p>The date printed on your certificate is flexible too — it can show a slightly earlier date if that works better for your CV timeline.</p>
+        </div>
+      </div>
+
+      <div class="lp-pills-row">
+        ${Object.keys(LP_DOMAINS_DATA).map(key => `
+          <button class="lp-pill ${key === activeLpDomain ? 'active' : ''}" onclick="selectLpDomain('${key}')">
+            ${LP_DOMAINS_DATA[key].label}
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="lp-cards-row">
+        <!-- Month 1 Card -->
+        <div class="lp-card">
+          <div>
+            <div class="lp-card-hdr">${data.m1_title}</div>
+            <div class="lp-card-list">
+              ${data.m1_items.map(item => `
+                <div class="lp-card-item">
+                  <i class="ti ti-arrow-right"></i>
+                  <span>${item}</span>
+                </div>
+              `).join('')}
+            </div>
+            ${data.m1_bonus ? `
+              <div class="lp-bonus-box">
+                <i class="ti ti-school" style="font-size: 14px;"></i>
+                <span>${data.m1_bonus}</span>
+              </div>
+            ` : ''}
+          </div>
+          <div class="lp-card-ftr">
+            <i class="ti ti-calendar-time"></i>
+            <span>${data.m1_footer}</span>
+          </div>
+        </div>
+
+        <!-- Month 2 Card -->
+        <div class="lp-card">
+          <div>
+            <div class="lp-card-hdr">${data.m2_title}</div>
+            <div class="lp-card-list">
+              ${data.m2_items.map(item => `
+                <div class="lp-card-item">
+                  <i class="ti ti-arrow-right"></i>
+                  <span>${item}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="lp-card-ftr">
+            <i class="ti ti-calendar-time"></i>
+            <span>${data.m2_footer}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  window.selectLpDomain = (key) => {
+    activeLpDomain = key;
+    drawContent();
+  };
+
+  drawContent();
 }
+
 function renderDetail(id) {
   const c = byId(id); if (!c) { location.hash = '#/'; return; }
   detailState = { courseId: c.id, selected: {} };
@@ -466,6 +670,30 @@ function renderDetail(id) {
     biEl.src = c.img;
   }
   document.getElementById('dDesc').textContent = c.desc;
+  
+  // Live Project certificate info callout
+  (function () {
+    const desc = document.getElementById('dDesc');
+    let box = document.getElementById('lpCertCalloutBox');
+    const hasLiveProject = c.cat === 'live' || c.id === 'flagship-bundle' || c.id === 'bootcamp-live' || c.id === 'case-live';
+    if (hasLiveProject) {
+      const html = `
+        <div class="lp-callout" id="lpCertCalloutBox" style="margin-top: 20px; border: 1.5px dashed #1A7F4B; background: rgba(26,127,75,0.02); border-radius: 12px; padding: 16px 20px; text-align: left;">
+          <h4 style="font-size: 13.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">🎓 Need the certificate but couldn't finish every area?</h4>
+          <p style="font-size: 12.0px; color: var(--ink2); line-height: 1.5; margin: 0;">That's fine — we still roll out your Certificate of Completion for your CV, as long as the project is submitted within 3 months of enrollment.</p>
+        </div>
+      `;
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'lpCertCalloutBox';
+        desc.insertAdjacentElement('afterend', box);
+      }
+      box.outerHTML = html;
+    } else if (box) {
+      box.remove();
+    }
+  })();
+
   // combo savings callout (injected after the description)
   (function () {
     const desc = document.getElementById('dDesc');
@@ -480,7 +708,18 @@ function renderDetail(id) {
   renderMentors(); renderFaq(); renderVariantUI(c);
   document.getElementById('dCart').onclick = () => addToCart(c);
   document.getElementById('dEnroll').onclick = () => { if (addToCart(c)) location.hash = '#/checkout'; };
+  
+  // Call to render Live Project domain details
+  renderLiveProjectDomainCoverage(c);
+  
   renderRelated(c); window.scrollTo(0, 0); observeReveals(document.getElementById('view-detail'));
+}
+
+function renderRelated(c) {
+  const pool = COURSES.filter(x => x.id !== c.id);
+  let picks = pool.filter(x => x.cat !== c.cat).sort((a, b) => b.rating - a.rating).slice(0, 3);
+  if (picks.length < 3) { const more = pool.filter(x => !picks.includes(x)).sort((a, b) => b.rating - a.rating); picks = picks.concat(more).slice(0, 3); }
+  const el = document.getElementById('dRelated'); el.innerHTML = picks.map(cardHtml).join(''); wireCards(el);
 }
 
 /* ===== CHECKOUT ===== */
