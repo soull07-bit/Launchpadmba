@@ -518,7 +518,7 @@ function renderGrid(){
   document.getElementById('enrollGrid').innerHTML=list.map(c=>`
     <div class="course-card${c.badge==='Best Value'?' featured':''}">
       <div class="card-img-wrap">
-        ${c.img&&c.img.indexOf('images/')===0?`<img class="card-img" src="${c.img.replace('images/','images/cards/').replace('.png','.svg')}" alt="${c.title}" loading="lazy"/>`:`<div class="course-art cat-${c.cat}"><i class="ti ${CAT_ICON[c.cat]||'ti-school'} cv-mark"></i><div class="cv-info"><span class="cv-chip">${CAT_LABEL[c.cat]||c.type}</span><div class="cv-h">${c.title}</div></div></div>`}
+        ${c.img&&c.img.indexOf('images/')===0?`<img class="card-img" src="${c.img}" alt="${c.title}" loading="lazy"/>`:`<div class="course-art cat-${c.cat}"><i class="ti ${CAT_ICON[c.cat]||'ti-school'} cv-mark"></i><div class="cv-info"><span class="cv-chip">${CAT_LABEL[c.cat]||c.type}</span><div class="cv-h">${c.title}</div></div></div>`}
         ${c.badge&&!(c.img&&c.img.indexOf('images/')===0)?`<div class="card-badge">${c.badge}</div>`:''}
       </div>
       <div class="card-body">
