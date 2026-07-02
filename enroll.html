@@ -243,6 +243,184 @@ button{cursor:pointer;font-family:inherit}
 .footer-social a.telegram{background:#0088cc}
 .footer-social a.instagram{background:linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)}
 .footer-social a.linkedin{background:#0077B5}
+
+/* ENROLL WITH A FRIEND STYLES */
+.enroll-tabs {
+  display: flex;
+  background: var(--surface2);
+  border-radius: 12px;
+  padding: 4px;
+  margin: 16px 32px 0;
+}
+.enroll-tab {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink2);
+  background: transparent;
+  cursor: pointer;
+  transition: .2s;
+  text-align: center;
+}
+.enroll-tab.active {
+  background: var(--surface);
+  color: var(--navy);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.friend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+@media(max-width:768px){
+  .friend-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.friend-col {
+  background: rgba(27, 42, 107, 0.02);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color .2s;
+}
+.friend-col:hover {
+  border-color: rgba(27, 42, 107, 0.15);
+}
+.friend-hdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 16px;
+  border-bottom: 1.5px solid var(--line);
+  padding-bottom: 10px;
+}
+.friend-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.friend-col:nth-child(1) .friend-num { background: #3b82f6; }
+.friend-col:nth-child(2) .friend-num { background: #a855f7; }
+
+.course-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  margin-top: 4px;
+}
+.course-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.course-option-item:hover {
+  background: var(--surface2);
+}
+.course-option-item input {
+  margin: 0;
+  cursor: pointer;
+}
+.course-option-item .co-title {
+  flex: 1;
+  text-align: left;
+}
+.course-option-item .co-price {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.friend-summary-card {
+  background: var(--orange-light);
+  border: 1.5px solid rgba(255,139,2,.2);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.friend-summary-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--orange-dark);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.friend-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--ink2);
+  margin-bottom: 8px;
+}
+.friend-summary-row span:last-child {
+  font-weight: 600;
+  color: var(--navy);
+}
+.friend-summary-row.discount {
+  color: var(--green);
+}
+.friend-summary-row.discount span:last-child {
+  color: var(--green);
+}
+.friend-summary-row.total {
+  border-top: 1px dashed rgba(0,0,0,.1);
+  padding-top: 12px;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--navy);
+}
+.friend-summary-row.total span:last-child {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--navy);
+}
+.friend-dual-codes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media(max-width:480px){
+  .friend-dual-codes {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -290,7 +468,7 @@ button{cursor:pointer;font-family:inherit}
 
   <!-- OFFER STRIP -->
   <div class="offer-strip">
-    <div class="offer-chip"><i class="ti ti-users"></i> Enroll with a friend — both get 30% off</div>
+    <div class="offer-chip" style="cursor:pointer" onclick="openEnroll('flagship-bundle', true)"><i class="ti ti-users"></i> Enroll with a friend — both get 30% off</div>
     <div class="offer-chip"><i class="ti ti-tag"></i> Referral code = 10% off for new students</div>
     <div class="offer-chip"><i class="ti ti-currency-rupee"></i> Refer & earn ₹750 per successful enrollment</div>
   </div>
@@ -377,13 +555,20 @@ button{cursor:pointer;font-family:inherit}
 
 <!-- ENROLLMENT MODAL -->
 <div class="enroll-modal" id="enrollModal">
-  <div class="enroll-box">
+  <div class="enroll-box" id="enrollBox">
     <div class="enroll-box-head">
       <div class="enroll-box-title" id="emTitle">Enroll Now</div>
       <div class="enroll-box-sub" id="emSub">Complete your enrollment below</div>
       <button class="enroll-x" onclick="closeEnrollModal()">&times;</button>
     </div>
-    <!-- ENROLLMENT FORM -->
+    
+    <!-- MODE TABS -->
+    <div class="enroll-tabs" id="emTabs">
+      <button class="enroll-tab active" id="tabSolo" onclick="setEnrollMode('solo')">Solo Enrollment</button>
+      <button class="enroll-tab" id="tabFriend" onclick="setEnrollMode('friend')">Enroll with a Friend (20% Off)</button>
+    </div>
+
+    <!-- SOLO ENROLLMENT FORM -->
     <div class="enroll-body" id="emBody">
       <div class="enroll-price-row">
         <div class="enroll-price" id="emPrice">₹0</div>
@@ -409,16 +594,116 @@ button{cursor:pointer;font-family:inherit}
       <button class="pay-btn" onclick="submitEnrollment()"><i class="ti ti-lock"></i> Pay Securely via Razorpay</button>
       <p class="pay-note">100% secure · Lifetime access · Certificate included</p>
     </div>
+
+    <!-- FRIEND ENROLLMENT FORM -->
+    <div class="enroll-body" id="emBodyFriend" style="display:none">
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h3 style="font-size: 20px; font-weight: 800; color: var(--navy); font-family: 'Playfair Display', serif; margin-bottom: 6px;">Enroll with a friend</h3>
+        <p style="font-size: 13px; color: var(--ink2); font-family: 'Inter', sans-serif;">Fill in each member's details and pick their course. The 20% discount is applied automatically to your combined total.</p>
+        <span class="enroll-off" style="display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--green); background: #E6F7EF; padding: 4px 12px; border-radius: 20px;">20% off combined total</span>
+      </div>
+      
+      <div class="friend-grid">
+        <!-- Member 1 -->
+        <div class="friend-col">
+          <div class="friend-hdr">
+            <span class="friend-num">1</span>
+            <span>Member 1</span>
+          </div>
+          <div class="afield"><label>Full Name</label><input id="friendName1" placeholder="e.g. Riya Sharma"/></div>
+          <div class="afield"><label>Phone Number</label><input id="friendPhone1" placeholder="+91 9XXXXXXXXX"/></div>
+          <div class="afield"><label>Email</label><input id="friendEmail1" type="email" placeholder="name@email.com"/></div>
+          <div class="afield"><label>College / B-School</label><input id="friendCollege1" placeholder="College name"/></div>
+          <div class="afield" style="margin-top: 15px;">
+            <label style="font-size: 11px; color: var(--ink2); font-weight: 700;">Select Course for Member 1</label>
+            <div class="course-options-list" id="friendCourseList1">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="friend-col">
+          <div class="friend-hdr">
+            <span class="friend-num">2</span>
+            <span>Member 2</span>
+          </div>
+          <div class="afield"><label>Full Name</label><input id="friendName2" placeholder="e.g. Riya Sharma"/></div>
+          <div class="afield"><label>Phone Number</label><input id="friendPhone2" placeholder="+91 9XXXXXXXXX"/></div>
+          <div class="afield"><label>Email</label><input id="friendEmail2" type="email" placeholder="name@email.com"/></div>
+          <div class="afield"><label>College / B-School</label><input id="friendCollege2" placeholder="College name"/></div>
+          <div class="afield" style="margin-top: 15px;">
+            <label style="font-size: 11px; color: var(--ink2); font-weight: 700;">Select Course for Member 2</label>
+            <div class="course-options-list" id="friendCourseList2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="enroll-err" id="emFriendErr"></div>
+
+      <!-- Combined Total summary card -->
+      <div class="friend-summary-card">
+        <div class="friend-summary-title"><i class="ti ti-receipt"></i> Payment Summary</div>
+        <div class="friend-summary-row">
+          <span id="friendSummaryCourseLabel1">Member 1 Course</span>
+          <span id="friendSummaryPrice1">₹0</span>
+        </div>
+        <div class="friend-summary-row">
+          <span id="friendSummaryCourseLabel2">Member 2 Course</span>
+          <span id="friendSummaryPrice2">₹0</span>
+        </div>
+        <div class="friend-summary-row" style="border-top: 1px dashed rgba(0,0,0,.08); padding-top: 6px; margin-top: 6px;">
+          <span>Combined Subtotal</span>
+          <span id="friendSummarySubtotal">₹0</span>
+        </div>
+        <div class="friend-summary-row discount">
+          <span>Group Offer Discount (20%)</span>
+          <span id="friendSummaryDiscount">-₹0</span>
+        </div>
+        <div class="friend-summary-row total">
+          <span>Combined Total to pay</span>
+          <span id="friendSummaryTotal">₹0</span>
+        </div>
+      </div>
+
+      <button class="pay-btn" onclick="submitFriendEnrollment()"><i class="ti ti-lock"></i> Pay Securely via Razorpay</button>
+      <p class="pay-note">100% secure · Lifetime access · Certificate included</p>
+    </div>
+
     <!-- SUCCESS SCREEN -->
     <div class="success-screen" id="emSuccess">
       <div class="success-ico"><i class="ti ti-circle-check"></i></div>
       <div class="success-title">Enrollment Confirmed! 🎉</div>
-      <div class="success-sub">Welcome to MBA Partner! Our team will reach out within 24 hours to onboard you.<br><br>We've generated your unique referral code. Share it and earn ₹750 for every friend who enrolls!</div>
-      <div class="ref-card">
-        <div class="ref-card-label">Your Unique Referral Code</div>
-        <div class="ref-code" id="successRefCode">—</div>
-        <button class="ref-copy-btn" onclick="copyRefCode()"><i class="ti ti-copy"></i> Copy &amp; Share</button>
+      
+      <!-- Single success content -->
+      <div id="successSingleContent">
+        <div class="success-sub">Welcome to MBA Partner! Our team will reach out within 24 hours to onboard you.<br><br>We've generated your unique referral code. Share it and earn ₹750 for every friend who enrolls!</div>
+        <div class="ref-card">
+          <div class="ref-card-label">Your Unique Referral Code</div>
+          <div class="ref-code" id="successRefCode">—</div>
+          <button class="ref-copy-btn" onclick="copyRefCode()"><i class="ti ti-copy"></i> Copy &amp; Share</button>
+        </div>
       </div>
+
+      <!-- Friend success content -->
+      <div id="successFriendContent" style="display:none">
+        <div class="success-sub">Welcome to MBA Partner! Both of your enrollments have been confirmed. Our team will reach out within 24 hours to onboard you both.<br><br>We've generated unique referral codes for both members:</div>
+        <div class="friend-dual-codes">
+          <div class="ref-card" style="margin-bottom:0">
+            <div class="ref-card-label" id="friendSuccessLabel1">Member 1 Code</div>
+            <div class="ref-code" id="friendSuccessCode1">—</div>
+            <button class="ref-copy-btn" onclick="copyFriendCode(1)"><i class="ti ti-copy"></i> Copy</button>
+          </div>
+          <div class="ref-card" style="margin-bottom:0">
+            <div class="ref-card-label" id="friendSuccessLabel2">Member 2 Code</div>
+            <div class="ref-code" id="friendSuccessCode2">—</div>
+            <button class="ref-copy-btn" onclick="copyFriendCode(2)"><i class="ti ti-copy"></i> Copy</button>
+          </div>
+        </div>
+      </div>
+
       <div class="ref-how">
         <div class="ref-how-title"><i class="ti ti-info-circle"></i> How Referrals Work</div>
         <div class="ref-step"><div class="ref-step-n">1</div><span>Share your code with a friend who wants to join MBA Partner</span></div>
@@ -429,6 +714,7 @@ button{cursor:pointer;font-family:inherit}
     </div>
   </div>
 </div>
+
 
 <!-- REFERRAL DASHBOARD MODAL -->
 <div class="enroll-modal" id="refDashModal">
@@ -525,7 +811,7 @@ function renderGrid(){
           ${c.mrp?`<div class="card-mrp">${fmt(c.mrp)}</div>`:''}
           ${c.off?`<div class="card-off">${c.off}</div>`:''}
         </div>
-        ${c.groupOffer?`<div class="group-offer-tag"><i class="ti ti-users"></i> Enroll with a friend — 30% off each</div>`:''}
+        ${c.groupOffer?`<div class="group-offer-tag" style="cursor:pointer" onclick="openEnroll('${c.id}', true)"><i class="ti ti-users"></i> Enroll with a friend — 30% off each</div>`:''}
         <div class="card-cta">
           <button class="btn-enroll" onclick="openEnroll('${c.id}')"><i class="ti ti-bolt"></i> Enroll Now</button>
           <button class="btn-details" onclick="window.location.href='courses.html'">Details</button>
@@ -545,12 +831,89 @@ document.querySelectorAll('.fchip').forEach(btn=>{
 renderGrid();
 
 /* ── ENROLLMENT MODAL ── */
-let currentCourse=null,couponDiscount=0,appliedCode='';
+let currentCourse=null,couponDiscount=0,appliedCode='',currentEnrollMode='solo';
 
-function openEnroll(id){
+function setEnrollMode(mode) {
+  currentEnrollMode = mode;
+  const box = document.getElementById('enrollBox');
+  const tabs = document.getElementById('emTabs');
+  const bodySingle = document.getElementById('emBody');
+  const bodyFriend = document.getElementById('emBodyFriend');
+  const tabSolo = document.getElementById('tabSolo');
+  const tabFriend = document.getElementById('tabFriend');
+  
+  if (mode === 'friend') {
+    box.style.maxWidth = '1020px';
+    tabSolo.classList.remove('active');
+    tabFriend.classList.add('active');
+    bodySingle.style.display = 'none';
+    bodyFriend.style.display = 'block';
+    initFriendCourseLists();
+    updateFriendCalculation();
+  } else {
+    box.style.maxWidth = '560px';
+    tabSolo.classList.add('active');
+    tabFriend.classList.remove('active');
+    bodySingle.style.display = 'block';
+    bodyFriend.style.display = 'none';
+  }
+}
+
+function initFriendCourseLists() {
+  if (!currentCourse) return;
+  const list1 = document.getElementById('friendCourseList1');
+  const list2 = document.getElementById('friendCourseList2');
+  
+  const options1 = COURSES.map(c => `
+    <label class="course-option-item">
+      <input type="radio" name="friendCourse1" value="${c.id}" ${c.id === currentCourse.id ? 'checked' : ''} onchange="updateFriendCalculation()">
+      <span class="co-title">${c.title}</span>
+      <span class="co-price">${fmt(c.price)}</span>
+    </label>
+  `).join('');
+
+  const options2 = COURSES.map(c => `
+    <label class="course-option-item">
+      <input type="radio" name="friendCourse2" value="${c.id}" ${c.id === currentCourse.id ? 'checked' : ''} onchange="updateFriendCalculation()">
+      <span class="co-title">${c.title}</span>
+      <span class="co-price">${fmt(c.price)}</span>
+    </label>
+  `).join('');
+
+  list1.innerHTML = options1;
+  list2.innerHTML = options2;
+}
+
+function updateFriendCalculation() {
+  const c1Id = document.querySelector('input[name="friendCourse1"]:checked')?.value;
+  const c2Id = document.querySelector('input[name="friendCourse2"]:checked')?.value;
+  
+  const c1 = COURSES.find(c => c.id === c1Id);
+  const c2 = COURSES.find(c => c.id === c2Id);
+  
+  if (!c1 || !c2) return;
+  
+  const price1 = c1.price;
+  const price2 = c2.price;
+  const subtotal = price1 + price2;
+  const discount = Math.round(subtotal * 0.20);
+  const total = subtotal - discount;
+  
+  document.getElementById('friendSummaryCourseLabel1').textContent = c1.title;
+  document.getElementById('friendSummaryPrice1').textContent = fmt(price1);
+  document.getElementById('friendSummaryCourseLabel2').textContent = c2.title;
+  document.getElementById('friendSummaryPrice2').textContent = fmt(price2);
+  
+  document.getElementById('friendSummarySubtotal').textContent = fmt(subtotal);
+  document.getElementById('friendSummaryDiscount').textContent = '-' + fmt(discount);
+  document.getElementById('friendSummaryTotal').textContent = fmt(total);
+}
+
+function openEnroll(id, isFriend){
   currentCourse=COURSES.find(c=>c.id===id);
   if(!currentCourse) return;
   couponDiscount=0; appliedCode='';
+  
   document.getElementById('emTitle').textContent=currentCourse.title;
   document.getElementById('emSub').textContent=currentCourse.type+' · '+currentCourse.rating+'/5 rating';
   document.getElementById('emPrice').textContent=fmt(currentCourse.price);
@@ -562,7 +925,12 @@ function openEnroll(id){
   document.getElementById('emCouponMsg').textContent='';
   document.getElementById('emErr').style.display='none';
   document.getElementById('emBody').style.display='';
+  document.getElementById('emBodyFriend').style.display='none';
   document.getElementById('emSuccess').className='success-screen';
+  
+  // Set tab modes
+  setEnrollMode(isFriend ? 'friend' : 'solo');
+  
   document.getElementById('enrollModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -647,10 +1015,74 @@ function submitEnrollment(){
   
   // Show success
   document.getElementById('emBody').style.display='none';
+  document.getElementById('emBodyFriend').style.display='none';
+  document.getElementById('successSingleContent').style.display='block';
+  document.getElementById('successFriendContent').style.display='none';
   document.getElementById('successRefCode').innerHTML=formatRefCode(refCode);
   document.getElementById('emSuccess').className='success-screen show';
   window._lastRefCode=refCode;
 }
+
+function submitFriendEnrollment() {
+  const name1 = (document.getElementById('friendName1').value || '').trim();
+  const phone1 = (document.getElementById('friendPhone1').value || '').trim();
+  const email1 = (document.getElementById('friendEmail1').value || '').trim();
+  const college1 = (document.getElementById('friendCollege1').value || '').trim();
+  
+  const name2 = (document.getElementById('friendName2').value || '').trim();
+  const phone2 = (document.getElementById('friendPhone2').value || '').trim();
+  const email2 = (document.getElementById('friendEmail2').value || '').trim();
+  const college2 = (document.getElementById('friendCollege2').value || '').trim();
+
+  const err = document.getElementById('emFriendErr');
+  
+  if (!name1 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email1) || !phone1 ||
+      !name2 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email2) || !phone2) {
+    err.textContent = 'Please fill in name, email and phone number for both members.';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+
+  // Generate codes
+  const code1 = generateRefCode(name1, email1);
+  const code2 = generateRefCode(name2, email2);
+  
+  window._friendRefCode1 = code1;
+  window._friendRefCode2 = code2;
+
+  // Store in localStorage
+  let data = {};
+  try { data = JSON.parse(localStorage.getItem('mbaReferrals') || '{}'); } catch(e){}
+  
+  data[email1] = { name: name1, code: code1, earnings: 0, referrals: [], pending: 0 };
+  data[email2] = { name: name2, code: code2, earnings: 0, referrals: [], pending: 0 };
+  
+  localStorage.setItem('mbaReferrals', JSON.stringify(data));
+
+  // Hide forms
+  document.getElementById('emBody').style.display = 'none';
+  document.getElementById('emBodyFriend').style.display = 'none';
+  
+  // Show friend success content
+  document.getElementById('successSingleContent').style.display = 'none';
+  document.getElementById('successFriendContent').style.display = 'block';
+  
+  document.getElementById('friendSuccessLabel1').textContent = name1 + "'s Referral Code";
+  document.getElementById('friendSuccessCode1').innerHTML = formatRefCode(code1);
+  document.getElementById('friendSuccessLabel2').textContent = name2 + "'s Referral Code";
+  document.getElementById('friendSuccessCode2').innerHTML = formatRefCode(code2);
+  
+  document.getElementById('emSuccess').className = 'success-screen show';
+}
+
+function copyFriendCode(num) {
+  const code = window['_friendRefCode' + num];
+  if (code) {
+    navigator.clipboard.writeText(code).then(() => showToast(`Member ${num} code copied!`)).catch(()=>{});
+  }
+}
+
 
 function generateRefCode(name,email){
   const n=name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,3)||'MBA';

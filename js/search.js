@@ -283,6 +283,10 @@ function cardHtml(c) {
       <div class="card-rating"><span class="card-rate-num">${c.rating.toFixed(1)}</span><span class="stars">${stars(c.rating)}</span><span class="card-rate-cnt">(${c.students.toLocaleString('en-IN')})</span></div>
       <div class="card-price-row"><span class="card-price">${fmt(c.price)}</span>${c.mrp ? `<span class="card-mrp">${fmt(c.mrp)}</span>` : ''}${c.off ? `<span class="card-off">${c.off}</span>` : ''}</div>
       ${typeof comboBadge === 'function' ? comboBadge(c) : ''}
+      <div class="card-cta-row">
+        <button class="btn-card-enroll" data-id="${c.id}"><i class="ti ti-bolt"></i> Enroll Now</button>
+        <button class="btn-card-details" data-id="${c.id}"><i class="ti ti-info-circle"></i> More Details</button>
+      </div>
     </div>
   </div>`;
 }
@@ -291,6 +295,20 @@ function wireCards(scope) {
   scope.querySelectorAll('.card[data-open]').forEach(el => {
     el.onclick = () => location.hash = '#/course/' + el.dataset.open;
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.hash = '#/course/' + el.dataset.open; } });
+  });
+  scope.querySelectorAll('.btn-card-enroll').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      location.hash = '#/course/' + id;
+      setTimeout(() => { const enrollBtn = document.getElementById('dEnroll'); if (enrollBtn) enrollBtn.click(); }, 300);
+    });
+  });
+  scope.querySelectorAll('.btn-card-details').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      location.hash = '#/course/' + btn.dataset.id;
+    });
   });
   scope.querySelectorAll('.card-vis img[data-src]').forEach(loadImg);
 }
