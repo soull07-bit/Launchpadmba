@@ -205,16 +205,12 @@ const CAT_ICON = { combo: 'ti-stack-2', bootcamp: 'ti-rocket', live: 'ti-briefca
 const CAT_LABEL = { combo: 'Combo Program', bootcamp: 'Placement Bootcamp', live: 'Live Project', case: 'Case Competition', cert: 'Certification' };
 function cardHtml(c) {
   const revealClass = query ? 'card reveal in' : 'card reveal';
-  const fitClass = c.id === 'flagship-bundle' ? 'banner-fit-bundle' : 
-                   (c.id === 'placement-bootcamp' ? 'banner-fit-bootcamp' : 
-                   (c.id === 'adv-excel' ? 'banner-fit-excel' : 
-                   (c.id === 'power-bi' ? 'banner-fit-powerbi' : 
-                   (c.id.includes('case') ? 'banner-fit-case' : ''))));
+  const hasLocalImg = c.img && c.img.indexOf('images/') === 0;
   return `<div class="card reveal" data-open="${c.id}" tabindex="0" role="button" aria-label="View ${c.title}">
     <div class="card-vis">
-      ${c.badge ? `<span class="badge">${c.badge}</span>` : ''}
-      <img class="${fitClass}" data-src="${c.img}" alt="${c.title}" loading="lazy"/>
-      <div class="vtype">${c.variantLabel || c.type}</div>
+      ${c.badge && !hasLocalImg ? `<span class="badge">${c.badge}</span>` : ''}
+      <img data-src="${c.img}" alt="${c.title}" loading="lazy"/>
+      ${!hasLocalImg ? `<div class="vtype">${c.variantLabel || c.type}</div>` : ''}
     </div>
     <div class="card-body">
       <div class="card-title">${c.title}</div>
@@ -300,20 +296,14 @@ function renderDetail(id) {
   document.getElementById('dType').textContent = c.type;
   document.getElementById('dTitle').textContent = c.title;
   document.getElementById('dTagline').textContent = c.tagline;
-  const fitClass = c.id === 'flagship-bundle' ? 'banner-fit-bundle' : 
-                   (c.id === 'placement-bootcamp' ? 'banner-fit-bootcamp' : 
-                   (c.id === 'adv-excel' ? 'banner-fit-excel' : 
-                   (c.id === 'power-bi' ? 'banner-fit-powerbi' : 
-                   (c.id.includes('case') ? 'banner-fit-case' : ''))));
-
   const dbEl = document.getElementById('dBanner');
   if (dbEl) {
-    dbEl.className = fitClass;
+    dbEl.className = '';
     dbEl.src = c.img;
   }
   const biEl = document.getElementById('buyImg');
   if (biEl) {
-    biEl.className = fitClass;
+    biEl.className = '';
     biEl.src = c.img;
   }
   document.getElementById('dDesc').textContent = c.desc;
